@@ -1,0 +1,62 @@
+crm:
+  - "*"
+partner-contact:
+  - "*"
+sale-workflow:
+  - "*"
+account-invoicing:
+  - "*"
+account-analytic:
+  - "*"
+account-invoice-reporting:
+  - "*"
+mis-builder:
+  - "*"
+social:
+  - "*"
+server-tools:
+  - "*"
+server-ux:
+  - "*"
+community-data-files:
+  - "*"
+account-reconcile:
+  - "*"
+account-payment:
+  - "*"
+bank-payment:
+  - "*"
+account-financial-tools:
+  - "*"
+account-financial-reporting:
+  - "*"
+bank-statement-import:
+  - "*"
+l10n-spain:
+  - "*"
+product-attribute:
+  - "*"
+reporting-engine:
+  - "*"
+web:
+  - "*"
+queue:
+  - "*"
+server-brand:
+  - "*"
+server-auth:
+  - "*"
+commission:
+  - "*"
+contract:
+  - "*"
+knowledge:
+  - "*"
+credit-control:
+  - "*"
+margin-analysis:
+  - "*"
+project:
+  - "*"
+helpdesk:
+  - "*"

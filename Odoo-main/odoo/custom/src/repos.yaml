@@ -1,0 +1,104 @@
+# See https://github.com/Tecnativa/doodba#optodoocustomsrcreposyaml
+./odoo:
+  defaults:
+    # Shallow repositories ($DEPTH_DEFAULT=1) are faster & thinner
+    # You may need a bigger depth when merging PRs (use $DEPTH_MERGE
+    # for a sane value of 100 commits)
+    depth: $DEPTH_DEFAULT
+  remotes:
+    ocb: https://github.com/OCA/OCB.git
+    odoo: https://github.com/odoo/odoo.git
+    openupgrade: https://github.com/OCA/OpenUpgrade.git
+  target: ocb $ODOO_VERSION
+  merges:
+    - ocb $ODOO_VERSION
+    # Example of a merge of the PR with the number <PR>
+    # - oca refs/pull/<PR>/head
+
+reporting-engine:
+  defaults:
+    depth: $DEPTH_MERGE
+  remotes:
+    origin: https://github.com/OCA/reporting-engine.git
+  target: origin $ODOO_VERSION
+  merges:
+    - origin $ODOO_VERSION
+    - origin refs/pull/667/head # report_qweb_parameter
+
+margin-analysis:
+  defaults:
+    depth: $DEPTH_MERGE
+  remotes:
+    origin: https://github.com/OCA/margin-analysis.git
+  target: origin $ODOO_VERSION
+  merges:
+    - origin $ODOO_VERSION
+    - origin refs/pull/163/head # account_invoice_margin
+    - origin refs/pull/165/head # account_invoice_margin_sale
+
+account-payment:
+  defaults:
+    depth: $DEPTH_MERGE
+  remotes:
+    origin: https://github.com/OCA/account-payment.git
+  target: origin $ODOO_VERSION
+  merges:
+    - origin $ODOO_VERSION
+    - origin refs/pull/611/head # account_payment_return
+
+account-financial-tools:
+  defaults:
+    depth: 0
+  remotes:
+    origin: https://github.com/OCA/account-financial-tools.git
+  target: origin $ODOO_VERSION
+  merges:
+    - origin $ODOO_VERSION
+    - origin refs/pull/1508/head # account_move_line_tax_editable
+
+sale-workflow:
+  defaults:
+    depth: 0
+  remotes:
+    origin: https://github.com/OCA/sale-workflow.git
+  target: origin $ODOO_VERSION
+  merges:
+    - origin $ODOO_VERSION
+    - origin refs/pull/2305/head # sale_force_invoiced
+
+bank-statement-import:
+  defaults:
+    depth: $DEPTH_MERGE
+  remotes:
+    origin: https://github.com/OCA/bank-statement-import.git
+  target: origin $ODOO_VERSION
+  merges:
+    - origin $ODOO_VERSION
+    - origin refs/pull/576/head # account_statement_import_file_reconciliation_widget
+
+bank-payment:
+  defaults:
+    depth: 0
+  remotes:
+    origin: https://github.com/OCA/bank-payment.git
+  target: origin $ODOO_VERSION
+  merges:
+    - origin $ODOO_VERSION
+    - origin refs/pull/974/head # account_banking_pain_base
+  shell_command_after:
+    - git fetch origin pull/990/head:account_banking_sepa_credit_transfer # account_banking_sepa_credit_transfer
+    - git merge -s ours account_banking_sepa_credit_transfer # force merge
+    - git fetch origin pull/1029/head:account_banking_sepa_direct_debit # account_banking_sepa_direct_debit
+    - git merge -s ours account_banking_sepa_direct_debit # force merge
+
+account-fiscal-rule:
+  defaults:
+    depth: 0
+  remotes:
+    origin: https://github.com/OCA/account-fiscal-rule.git
+  target: origin $ODOO_VERSION
+  merges:
+    - origin $ODOO_VERSION
+    - origin refs/pull/340/head # account_fiscal_position_partner_type
+    - origin refs/pull/348/head # l10n_eu_oss_oca
+
