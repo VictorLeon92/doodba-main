@@ -1,0 +1,76 @@
+Instalación
+
+https://docs.docker.com/install/linux/docker-ce/ubuntu/
+https://github.com/docker/compose/releases
+https://docs.docker.com/install/linux/linux-postinstall/
+https://github.com/Comunitea/doodba-copier-template/blob/stable/docs/daily-usage.md
+
+Desinstalamos versiones anteriores
+$ sudo apt-get remove docker docker-engine docker.io containerd runc
+
+Instalamos paquetes necesarios para apt
+$ sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+Añadimos la clave
+$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg |sudo  gpg --dearmor -o /usr/share/keyrings/docker.gpg
+o (Ubuntu 22.04)
+sudo mkdir -p /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+o (Debian)
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg |sudo  gpg --dearmor -o /usr/share/keyrings/docker.gpg
+
+
+
+Añadimos el repositorio
+sudo add-apt-repository "deb [arch=amd64 signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+o
+sudo add-apt-repository "deb [arch=amd64 signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+o
+echo   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+o (Ubuntu 22.04)
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+Instalar paquetes
+$ sudo apt-get update
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+Comprobar que se ha instalado correctamente
+$ sudo docker run hello-world
+
+Instalamos compose
+$ sudo curl -L https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+$ sudo chmod +x /usr/local/bin/docker-compose
+
+Comprobar que docker-compose se ha instalado correctamente
+$ docker-compose --version
+
+Añadimos en ~/.bashrc la línea:
+
+export DOODBA_GITAGGREGATE_UID="$(id -g $USER)" DOODBA_GITAGGREGATE_GID="$(id -g $USER)" DOODBA_UMASK="$(umask)"
+
+. .bashrc  (recargar fichero)
+
+
+Añadir nuestro usuario al grupo docker
+$ sudo usermod -aG docker $USER
+$ newgrp docker
+
+Iniciar docker con el sistema
+$ sudo systemctl enable docker
+
+
+
+En Desarrollo:
+python3 -m pip install --user pipx
+pipx install copier
+pipx install invoke
+pipx install pre-commit
+pipx ensurepath
+
+* Si no encuentra pipx, ejecutar: export PATH="${PATH}:$(python3 -c 'import site; print(site.USER_BASE)')/bin"
+* Es posible que haya que instalar también: sudo apt-get install python3-venv y python3-pip
+
+https://hub.docker.com/r/tecnativa/doodba
