@@ -1,0 +1,31 @@
+invoke git-aggregate (descarga de addons de oca en desarrollo y construcción de la imagen sino lo estuviera)
+docker-compose --file setup-devel.yaml run --rm (descarga de addons de oca en producción, ejecutar tras el build)
+docker-compose build --pull --no-cache (construir imagen sin usar caché) (En producción -f prod.yaml)
+docker-compose run --rm odoo --stop-after-init -i base (init devel)
+docker-compose run --rm odoo click-odoo-update -d devel (update sólo de los módulos modificados)
+docker-compose run --rm odoo click-odoo-update -d devel --update-all (update all)
+docker-compose run --rm odoo createdb -T template0 --lc-collate=C devel
+docker-compose run --rm odoo dropdb devel
+docker-compose run --rm odoo odoo shell (consola interactiva)
+docker-compose run --rm odoo psql devel
+docker-compose -p inverseproxy -f inverseproxy.yaml up -d (Arrancar traefik en producción)
+docker-compose -f prod.yaml up -d
+docker-compose -f prod.yaml down
+docker-compose -f prod.yaml restart odoo (invoke restart en desarrollo)
+docker-compose -f prod.yaml logs -f --tail 10 odoo (log de odoo últimas 10 lineas)
+
+docker system prune (borrar todos los dockers)
+docker-compose up --force-recreate (recrear)
+docker-compose run --rm odoo bash (acceso al sistema de odoo en un segundo contenedor)
+docker-compose -f prod.yaml run --rm odoo createdb dbname
+docker-compose -f prod.yaml run --rm odoo pg_restore --no-owner --dbname=dbname /var/lib/odoo/filestore/bck.dump (hay que guardarlo en /var/lib/docker/volumes/...._filestore/_data/filestore)
+docker-compose run --rm odoo psql devel < /local_path/dbname_bck.sql (si es un sql)
+docker-compose -f prod.yaml exec backup /etc/periodic/daily/jobrunner (prueba manual del backup)
+
+docker container ls -a (listar contenedores)
+docker container rm [container_id] (borrar un contenedor)
+docker image ls (listar imágenes)
+docker image rm [image_id1] [image_id2] (borrar imágenes)
+docker volume ls (Listar volúmenes)
+docker volume rm VolumeName (Borrar volúmenes)
+docker exec -u 0 -ti name_docker /bin/bash (entrar con bash y root en un contenedor concreto en ejecución)
